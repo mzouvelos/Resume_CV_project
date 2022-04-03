@@ -36,7 +36,7 @@ sup {
 /* Customize some of the sizing variables */
 :root {
   --sidebar-width: 12rem; /* Shrink sidebar width  */
-  --sidebar-background-color: #DEDECF; /* set sidebar colour */
+  --sidebar-background-color: #d1d7db; /* set sidebar colour */
   --sidebar-horizontal-padding: 0.01in; /* Reduce sidebar padding */
   --decorator-outer-dim: 10px; /* Make position deliniating circles larger */
   --decorator-border: 2px solid #7899A5; /* set timeline colour*/
