@@ -34,6 +34,8 @@ CV <- create_CV_object(
   pdf_mode = params$pdf_mode,
   sheet_is_publicly_readable = params$sheet_is_publicly_readable
 )
+
+# In the googlesheet fill the IN RESUME field to display on the knitted document
 CV$entries_data <- CV$entries_data %>% dplyr::filter(in_resume == TRUE)
 ```
 
