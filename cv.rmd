@@ -8,7 +8,7 @@ params:
   sheet_is_publicly_readable:
     value: false
 output:
-  pagedown::html_resume:
+  pagedown::html_resume:    
     css: ['dd_cv.css', 'resume']
     self_contained: true
 knit: pagedown::chrome_print 
@@ -22,6 +22,12 @@ knitr::opts_chunk$set(
 )
 library(magrittr) # For the pipe
 source("cv_printing_functions.r")
+
+# After completing the interactive authentication once the first time running gs4_auth in your console
+# Then your credentials are cached and by adding the gs4_auth() command in the rmd it authenticates when knitting
+library(googlesheets4)
+googlesheets4::gs4_auth()
+
 # Read in all data and initialize a CV printer object
 CV <- create_CV_object(
   data_location = "https://docs.google.com/spreadsheets/d/1pn4JVjnTxRQS3xTAdtuWgpJKMbh6iGoVeWycmVFM7e8/edit#gid=917338460",  
@@ -29,6 +35,13 @@ CV <- create_CV_object(
   sheet_is_publicly_readable = params$sheet_is_publicly_readable
 )
 CV$entries_data <- CV$entries_data %>% dplyr::filter(in_resume == TRUE)
+```
+
+```{r}
+# install.packages("devtools")
+
+# Use this installation because the original fails from dependency on icon package
+# devtools::install_github('Ash706/datadrivencv')
 ```
 
 
@@ -54,14 +67,6 @@ Aside
 datadrivencv::build_network_logo(CV$entries)
 ```
 
-
-```{r}
-# if(params$pdf_mode){
-#  cat("View this CV online with links at [here](")
-# } else {
-#  cat("[<i class='fas fa-download'></i> Download a PDF of this CV](C:/Users/micha/Documents/michalis-zouvelos.pdf)")
-# }
-```
 
 Contact & Info {#contact}
 --------------------------------------------------------------------------------
@@ -104,6 +109,15 @@ CV %<>% print_text_block("intro")
 ```
 
 
+Professional Experience {data-icon=suitcase}
+--------------------------------------------------------------------------------
+
+
+```{r}
+CV %<>% print_section('industry_positions')
+```
+
+
 
 Education {data-icon=graduation-cap data-concise=true}
 --------------------------------------------------------------------------------
@@ -115,13 +129,6 @@ CV %<>% print_section('education')
 
 
 
-Professional Experience {data-icon=suitcase}
---------------------------------------------------------------------------------
-
-
-```{r}
-CV %<>% print_section('industry_positions')
-```
 
 Certifications {data-icon=certificate}
 --------------------------------------------------------------------------------
@@ -137,16 +144,8 @@ Obligations {data-icon=stamp}
 CV %<>% print_section('obligations')
 ```
 
-::: aside
 
 
-Made with the R packages **pagedown** and **datadrivencv**.
-
-You can find full code on my [Github](https://github.com/mzouvelos/Resume_CV_project)
-
-Last updated on `r Sys.Date()`.
-
-:::
 <!-- These breaks just force a new page so section doesnt get cut off -->
 <br>
 <br>
