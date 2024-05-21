@@ -102,31 +102,37 @@ create_CV_object <-  function(data_location,
 
 
 # Remove links from a text block and add to internal list
+# sanitize_links <- function(cv, text){
+#   if(cv$pdf_mode){
+#     link_titles <- stringr::str_extract_all(text, '(?<=\\[).+?(?=\\])')[[1]]
+#     link_destinations <- stringr::str_extract_all(text, '(?<=\\().+?(?=\\))')[[1]]
+# 
+#     n_links <- length(cv$links)
+#     n_new_links <- length(link_titles)
+# 
+#     if(n_new_links > 0){
+#       # add links to links array
+#       cv$links <- c(cv$links, link_destinations)
+# 
+#       # Build map of link destination to superscript
+#       link_superscript_mappings <- purrr::set_names(
+#         paste0("<sup>", (1:n_new_links) + n_links, "</sup>"),
+#         paste0("(", link_destinations, ")")
+#       )
+# 
+#       # Replace the link destination and remove square brackets for title
+#       text <- text %>%
+#         stringr::str_replace_all(stringr::fixed(link_superscript_mappings)) %>%
+#         stringr::str_replace_all('\\[(.+?)\\]', "\\1")
+#     }
+#   }
+# 
+#   list(cv = cv, text = text)
+# }
+
+# Leave links inside the text block
 sanitize_links <- function(cv, text){
-  if(cv$pdf_mode){
-    link_titles <- stringr::str_extract_all(text, '(?<=\\[).+?(?=\\])')[[1]]
-    link_destinations <- stringr::str_extract_all(text, '(?<=\\().+?(?=\\))')[[1]]
-
-    n_links <- length(cv$links)
-    n_new_links <- length(link_titles)
-
-    if(n_new_links > 0){
-      # add links to links array
-      cv$links <- c(cv$links, link_destinations)
-
-      # Build map of link destination to superscript
-      link_superscript_mappings <- purrr::set_names(
-        paste0("<sup>", (1:n_new_links) + n_links, "</sup>"),
-        paste0("(", link_destinations, ")")
-      )
-
-      # Replace the link destination and remove square brackets for title
-      text <- text %>%
-        stringr::str_replace_all(stringr::fixed(link_superscript_mappings)) %>%
-        stringr::str_replace_all('\\[(.+?)\\]', "\\1")
-    }
-  }
-
+  # Bypass the link sanitization process
   list(cv = cv, text = text)
 }
 

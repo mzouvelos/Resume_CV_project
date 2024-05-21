@@ -154,5 +154,5 @@ CV %<>% print_section('obligations')
 <br>
 
 ```{r}
-CV %<>% print_links()
+# CV %<>% print_links()
 ```
